@@ -35,11 +35,11 @@ function runEnter() {
     var inputElement = d3.select("#datetime");
 
     // Get the value property of the input element
-    var datetimeSearchCriteria = inputElement.property("value")
+    var searchcriteria = inputElement.property("value")
     
     // Function for filtering data
     var filteredData = tableData.filter(sighting =>
-        sighting.datetime === datetimeSearchCriteria);
+        sighting.datetime === searchcriteria);
     
     // Results and append
     filteredData.forEach((sighting) => {
