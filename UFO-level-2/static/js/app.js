@@ -83,7 +83,7 @@ function runEnter() {
     var inputcity = d3.select("#city").property("value");
     var inputime = d3.select("#duration").property("value");
 
-    // Function for filtering data
+    // Function for filtering data (https://stackoverflow.com/questions/31831651/javascript-filter-array-multiple-conditions)
     var resultdata = tableData.filter(sighting =>
       (sighting.datetime === inputdate || !inputdate) &&
       (sighting.country === inputcountry || !inputcountry) &&
