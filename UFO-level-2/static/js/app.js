@@ -1,12 +1,10 @@
 // Import dataset from data.js
 var tableData = data;
 
-// Select buttons
-var filterbutton = d3.select("#filter-btn");
-
-// Event handlers
-//filterbutton.on("click", runEnter);
-//form.on("submit",runEnter);
+// Function for unique values (https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates)
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 
 // Get reference to table 
 var tbody = d3.select("tbody");
@@ -19,19 +17,26 @@ data.forEach((sighting) => {
       cell.text(value);
     });
 });
-
-// Function for unique values (https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates)
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
-}
   
+// Select buttons
+var filterButton = d3.select("#filter-btn");
+var resetbutton = d3.select("#reset-btn");
+
+// Get dates
+var dateslct = d3.select("#datetime");
+var dates = tableData.map(sighting => sighting.datetime);
+var uniqdate = dates.filter(onlyUnique).sort();
+uniqdate.forEach(date => {
+  dateslct.append("option").text(date)
+});
+
 // Get countries
-  var countryslct = d3.select("#country");
-  var countries = tableData.map(sighting => sighting.country);
-  var countryunique = countries.filter(onlyUnique).sort();
-  countryunique.forEach(country => {
-    countryslct.append("option").text(country)
-  });
+var countryslct = d3.select("#country");
+var countries = tableData.map(sighting => sighting.country);
+var countryunique = countries.filter(onlyUnique).sort();
+countryunique.forEach(country => {
+  countryslct.append("option").text(country)
+});
   
 // Get states
 var stateslct = d3.select("#state");
@@ -57,30 +62,47 @@ timeunique.forEach(time => {
   timeslct.append("option").text(time)
 });
 
-// Complete the event handler function for the form
+// Event handlers
+resetbutton.on('click', Reset);
+d3.selectAll("select").on("change",runEnter);
+
+// Complete the event handler for filter
 function runEnter() {
 
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
+
     // Select table and create reference to table
-    var htmlTable = d3.select("#ufo-table");
     var tbody = d3.select("tbody")
     tbody.html("");
 
-    // Select the input element
-    var inputElement = d3.select("#datetime");
+    // Select the input element and get value property
+    var inputdate = d3.select("#datetime").property("value");
+    var inputcountry = d3.select("#country").property("value");
+    var inputstate = d3.select("#state").property("value");
+    var inputcity = d3.select("#city").property("value");
+    var inputime = d3.select("#duration").property("value");
 
-    // Get the value property of the input element
-    var searchcriteria = inputElement.property("value")
-    
     // Function for filtering data
-    var filteredData = tableData.filter(sighting =>
-        sighting.datetime === searchcriteria);
+    var resultdata = tableData.filter(sighting =>
+      (sighting.datetime === inputdate || !inputdate) &&
+      (sighting.country === inputcountry || !inputcountry) &&
+      (sighting.state === inputstate || !inputstate) &&
+      (sighting.city === inputcity || !inputcity) && 
+      (sighting.durationMinutes === inputime || !inputime)
+      );
     
     // Results and append
-    filteredData.forEach((sighting) => {
+    resultdata.forEach((sighting) => {
         var row = tbody.append("tr");
         Object.values(sighting).forEach((value) => {
           var cell = row.append("td");
           cell.text(value);
         });
     });
+}
+
+// Complete the event handler for reset
+function Reset() {
+  location.reload();
 }
