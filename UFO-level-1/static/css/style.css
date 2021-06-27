@@ -235,3 +235,11 @@ select {
   margin-top: 0cm;
   margin-bottom: 0cm;
 }
+
+.btn{
+  background-color: rgb(47, 64, 79);
+  box-shadow: dimgray;
+  position: relative;
+  left: 16%;
+  bottom: 5px;
+}
