@@ -26,6 +26,9 @@ data.forEach((sighting) => {
 // Complete the event handler function for the form
 function runEnter() {
 
+    // Prevent reloading
+    d3.event.preventDefault();
+    
     // Select table and create reference to table
     var htmlTable = d3.select("#ufo-table");
     var tbody = d3.select("tbody")

@@ -69,7 +69,7 @@ d3.selectAll("select").on("change",runEnter);
 // Complete the event handler for filter
 function runEnter() {
 
-    // Prevent the page from refreshing
+    // Prevent reloading
     d3.event.preventDefault();
 
     // Select table and create reference to table
