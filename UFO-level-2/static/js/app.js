@@ -54,9 +54,9 @@ cityunique.forEach(city => {
   cityslct.append("option").text(city)
 });
 
-// Get duration
-var timeslct = d3.select("#duration");
-var times = tableData.map(sighting => sighting.durationMinutes);
+// Get shape
+var timeslct = d3.select("#shape");
+var times = tableData.map(sighting => sighting.shape);
 var timeunique = times.filter(onlyUnique).sort();
 timeunique.forEach(time => {
   timeslct.append("option").text(time)
@@ -81,7 +81,7 @@ function runEnter() {
     var inputcountry = d3.select("#country").property("value");
     var inputstate = d3.select("#state").property("value");
     var inputcity = d3.select("#city").property("value");
-    var inputime = d3.select("#duration").property("value");
+    var inputime = d3.select("#shape").property("value");
 
     // Function for filtering data (https://stackoverflow.com/questions/31831651/javascript-filter-array-multiple-conditions)
     var resultdata = tableData.filter(sighting =>
@@ -89,7 +89,7 @@ function runEnter() {
       (sighting.country === inputcountry || !inputcountry) &&
       (sighting.state === inputstate || !inputstate) &&
       (sighting.city === inputcity || !inputcity) && 
-      (sighting.durationMinutes === inputime || !inputime)
+      (sighting.shape === inputime || !inputime)
       );
     
     // Results and append
